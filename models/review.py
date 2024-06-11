@@ -9,3 +9,24 @@ class Review(KeyModel):
         self.comment = comment
         self.place_id = place_id
         self.user_id = user_id
+
+    def save(self):
+        super().save()
+        # Implementación específica para guardar una reseña
+
+    def delete(self):
+        super().delete()
+        # Implementación específica para eliminar una reseña
+
+    def update(self, **kwargs):
+        super().update(**kwargs)
+
+    def to_dict(self):
+        data = super().to_dict()
+        data.update({
+            'rating': self.rating,
+            'comment': self.comment,
+            'place_id': self.place_id,
+            'user_id': self.user_id
+        })
+        return data

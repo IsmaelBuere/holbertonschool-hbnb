@@ -7,3 +7,21 @@ class Country(KeyModel):
         super().__init__()
         self.name = name
         self.code = code
+
+    def save(self):
+        return super().save()
+        #implementacion para guardar un pais
+
+    def delete(self):
+        return super().delete()
+    
+    def update(self, **kwargs):
+        return super().update(**kwargs)
+    
+    def to_dict(self):
+        data = super().to_dict()
+        data.update({
+            'name': self.name,
+            'code': self.code
+        })
+        return data
