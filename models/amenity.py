@@ -9,11 +9,11 @@ class Amenity(KeyModel):
 
     def save(self):
         super().save()
-        # Implementación específica para guardar una comodidad
+        # Implementación específica para guardar una amenity
 
     def delete(self):
         super().delete()
-        # Implementación específica para eliminar una comodidad
+        # Implementación específica para eliminar una amenity
 
     def update(self, **kwargs):
         super().update(**kwargs)

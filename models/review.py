@@ -12,11 +12,11 @@ class Review(KeyModel):
 
     def save(self):
         super().save()
-        # Implementación específica para guardar una reseña
+        # Implementación específica para guardar una review
 
     def delete(self):
         super().delete()
-        # Implementación específica para eliminar una reseña
+        # Implementación específica para eliminar una review
 
     def update(self, **kwargs):
         super().update(**kwargs)

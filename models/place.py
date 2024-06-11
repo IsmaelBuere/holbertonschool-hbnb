@@ -46,7 +46,7 @@ class Place(KeyModel):
         return data
 
     def get_amenities(self):
-        # Lógica para obtener las comodidades del lugar
+        # Lógica para obtener las amenities del lugar
         return self.amenities
 
     def add_amenity(self, amenity):
@@ -59,7 +59,7 @@ class Place(KeyModel):
             self.save()
 
     def get_reviews(self):
-        # Lógica para obtener las reseñas del lugar
+        # Lógica para obtener las reviews del lugar
         return self.reviews
 
     def add_review(self, review):
