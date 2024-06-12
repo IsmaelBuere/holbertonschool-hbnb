@@ -14,7 +14,8 @@ class Country(KeyModel):
 
     def delete(self):
         return super().delete()
-    
+        #implementacion para guardar un pais
+
     def update(self, **kwargs):
         return super().update(**kwargs)
     

@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 from models.base_model import KeyModel
+import json, os
 
 class Review(KeyModel):
     def __init__(self, rating, comment, place_id, user_id):
@@ -11,8 +12,23 @@ class Review(KeyModel):
         self.user_id = user_id
 
     def save(self):
+        if not self.is_valid_reviewer():
+            raise ValueError("Reviewer cannot review their own place")
         super().save()
         # Implementación específica para guardar una review
+
+    def is_valid_reviewer(self):
+        place_file_path = "storage/Place.json"
+        if os.path.exists(place_file_path):
+            with open(place_file_path, 'r') as file:
+                try:
+                    all_data = json.load(file)
+                except json.JSONDecodeError:
+                    all_data = []
+            for place in all_data:
+                if place['id'] == self.place_id and place['user_id'] == self.user_id:
+                    return False
+        return True
 
     def delete(self):
         super().delete()

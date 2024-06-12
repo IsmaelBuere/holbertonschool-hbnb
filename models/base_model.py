@@ -24,7 +24,6 @@ class KeyModel(ABC):
     def update(self, **kwargs):
         for key, value in kwargs.items():
             setattr(self, key, value)
-        self.updated_at = datetime.now()
         self.save()
     
     def to_dict(self):

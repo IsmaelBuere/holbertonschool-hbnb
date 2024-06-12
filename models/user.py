@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 from models.base_model import KeyModel
+import json, os
 
 class User(KeyModel):
     def __init__(self, email, first_name, last_name, password):
@@ -11,8 +12,22 @@ class User(KeyModel):
         self.password = password
     
     def save_account(self):
-        return super().save()
-    #implementacion para guardar usuario
+        if not self.is_unique_email():
+            raise ValueError("Email already exists")
+        super().save()
+
+    def is_unique_email(self):
+        file_path = "storage/User.json"
+        if os.path.exists(file_path):
+            with open(file_path, 'r') as file:
+                try:
+                    all_data = json.load(file)
+                except json.JSONDecodeError:
+                    all_data = []
+            for user in all_data:
+                if user['email'] == self.email and user['id'] != str(self.id):
+                    return False
+        return True    
 
     def delete_account(self):
     #implementacion para borrar usuario
