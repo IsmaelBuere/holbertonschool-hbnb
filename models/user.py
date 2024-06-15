@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 
 from models.base_model import KeyModel
+from datetime import datetime
 import json, os
+
 
 class User(KeyModel):
     def __init__(self, email, first_name, last_name, password):
@@ -11,9 +13,10 @@ class User(KeyModel):
         self.last_name = last_name
         self.password = password
     
-    def save_account(self):
+    def save(self):
         if not self.is_unique_email():
             raise ValueError("Email already exists")
+        self.updated_at = datetime.now()
         super().save()
 
     def is_unique_email(self):
@@ -29,11 +32,10 @@ class User(KeyModel):
                     return False
         return True    
 
-    def delete_account(self):
-    #implementacion para borrar usuario
-        return self.delete()
+    def delete(self):
+        super().delete()
 
-    def update_account(self, new_info):
+    def update(self, new_info):
         for key, value in new_info.items():
             setattr(self, key, value)
         self.save()
@@ -48,7 +50,6 @@ class User(KeyModel):
         return data
 
     def password_check(self, password):
-        # Lógica para verificar la contraseña
         return self.password == password
 
     def get_places(self):

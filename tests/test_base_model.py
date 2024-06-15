@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import unittest, uuid, time
 from models.base_model import KeyModel
 from datetime import datetime
