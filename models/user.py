@@ -35,8 +35,8 @@ class User(KeyModel):
     def delete(self):
         super().delete()
 
-    def update(self, new_info):
-        for key, value in new_info.items():
+    def update(self, **kwargs):
+        for key, value in kwargs.items():
             setattr(self, key, value)
         self.save()
     
