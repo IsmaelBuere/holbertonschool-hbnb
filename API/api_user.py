@@ -3,18 +3,18 @@
 import sys, os
 
 # Agrega la ruta del directorio principal al sys.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.api_userend(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from flask import Flask, request, jsonify
 from models.user import User
 from persistence.data_manager import DataManager
 
 
-app = Flask(__name__)
+api_user = Flask(__name__)
 data_manager = DataManager()
 
 
-@app.route('/users', methods=['POST'])
+@api_user.route('/users', methods=['POST'])
 def create_user():
     data = request.json
     user = User(email=data['email'], first_name=data['first_name'], last_name=data['last_name'], password=data['password'])
@@ -23,38 +23,38 @@ def create_user():
         data_manager.save(user)
         print(f"User created succesfuly!")
         return jsonify(user.to_dict()), 201
-    except ValueError as e:
+    except ValueError as error:
         print(f"Error creating user")
-        return jsonify({"error": str(e)}), 400
+        return jsonify({"error": str(error)}), 400
 
-@app.route('/users/<user_id>', methods=['GET'])
+@api_user.route('/users/<user_id>', methods=['GET'])
 def get_user(user_id):
-    user_data = data_manager.get(user_id, 'User')
-    if user_data:
+    user_info = data_manager.get(user_id, 'User')
+    if user_info:
         print(f"Here you have the user you searching for")
-        return jsonify(user_data), 200
+        return jsonify(user_info), 200
     else:
-        print(f"User not found")
+        print(f"User not found...")
         return jsonify({"error": "User not found"}), 404
 
-@app.route('/users/<user_id>', methods=['PUT'])
+@api_user.route('/users/<user_id>', methods=['PUT'])
 def update_user(user_id):
-    user_data = data_manager.get(user_id, 'User')
-    if not user_data:
+    user_info = data_manager.get(user_id, 'User')
+    if not user_info:
         print(f"User not found, you have nothing to change")
         return jsonify({"error": "User not found"}), 404
 
     data = request.json
-    user = User(email=user_data.get('email'), first_name=user_data.get('first_name'), last_name=user_data.get('last_name'), password=user_data.get('password'))
+    user = User(email=user_info.get('email'), first_name=user_info.get('first_name'), last_name=user_info.get('last_name'), password=user_info.get('password'))
     user.update(**data)
     data_manager.update(user)
     print(f"User information is now updated!")
     return jsonify(user.to_dict()), 200
 
-@app.route('/users/<user_id>', methods=['DELETE'])
+@api_user.route('/users/<user_id>', methods=['DELETE'])
 def delete_user(user_id):
-    user_data = data_manager.get(user_id, 'User')
-    if not user_data:
+    user_info = data_manager.get(user_id, 'User')
+    if not user_info:
         print(f"User not found, theres nothing to delete")
         return jsonify({"error": "User not found"}), 404
 
@@ -63,4 +63,4 @@ def delete_user(user_id):
     return '', 204
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    api_user.run(debug=True)

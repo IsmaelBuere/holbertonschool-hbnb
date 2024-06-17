@@ -2,17 +2,17 @@
 
 import json
 import os
-from persistence.persistence import IPersistenceManager
+from persistence.ipersistence import IPersistenceManager
 
 class DataManager(IPersistenceManager):
-    def __init__(self, storage_dir="storage"):
-        self.storage_dir = storage_dir
-        if not os.path.exists(storage_dir):
-            os.makedirs(storage_dir)
+    def __init__(self, storage="data_storage"):
+        self.storage = storage
+        if not os.path.exists(storage):
+            os.makedirs(storage)
 
     def _get_file_path(self, entity_type):
         # Obtiene la ruta del archivo de almacenamiento para un tipo de entidad específico.
-        return os.path.join(self.storage_dir, f"{entity_type}.json")
+        return os.path.join(self.storage, f"{entity_type}.json")
 
     def save(self, entity):
         # Guarda una nueva entidad en el archivo JSON correspondiente.
