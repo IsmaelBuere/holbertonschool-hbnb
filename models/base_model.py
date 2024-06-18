@@ -28,7 +28,7 @@ class KeyModel(ABC):
     
     def to_dict(self):
         return {
-            'id': self.id,
-            'created_at': self.created_at,
-            'updated_at': self.updated_at
+            'id': str(self.id), # convierte UUID a str
+            'created_at': self.created_at.isoformat(), # convierten datetime a str
+            'updated_at': self.updated_at.isoformat()
         }

@@ -3,7 +3,7 @@
 import sys, os
 
 # Agrega la ruta del directorio principal al sys.path
-sys.path.api_userend(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from flask import Flask, request, jsonify
 from models.user import User
@@ -17,7 +17,7 @@ data_manager = DataManager()
 @api_user.route('/users', methods=['POST'])
 def create_user():
     data = request.json
-    user = User(email=data['email'], first_name=data['first_name'], last_name=data['last_name'], password=data['password'])
+    user = User(email=data['email'], first_name=data['first_name'], last_name=data['last_name'])
     try:
         user.save()
         data_manager.save(user)
@@ -45,7 +45,7 @@ def update_user(user_id):
         return jsonify({"error": "User not found"}), 404
 
     data = request.json
-    user = User(email=user_info.get('email'), first_name=user_info.get('first_name'), last_name=user_info.get('last_name'), password=user_info.get('password'))
+    user = User(email=user_info.get('email'), first_name=user_info.get('first_name'), last_name=user_info.get('last_name'))
     user.update(**data)
     data_manager.update(user)
     print(f"User information is now updated!")
