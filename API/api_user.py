@@ -1,14 +1,13 @@
 #!/usr/bin/python3
 
-import sys, os
-
-# Agrega la ruta del directorio principal al sys.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
+import sys
+import os
 from flask import Flask, request, jsonify
 from models.user import User
 from persistence.data_manager import DataManager
 
+# Agrega la ruta del directorio principal al sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 api_user = Flask(__name__)
 data_manager = DataManager()
@@ -27,6 +26,7 @@ def create_user():
         print(f"Error creating user")
         return jsonify({"error": str(error)}), 400
 
+
 @api_user.route('/users/<user_id>', methods=['GET'])
 def get_user(user_id):
     user_info = data_manager.get(user_id, 'User')
@@ -36,6 +36,7 @@ def get_user(user_id):
     else:
         print(f"User not found...")
         return jsonify({"error": "User not found"}), 404
+
 
 @api_user.route('/users/<user_id>', methods=['PUT'])
 def update_user(user_id):
@@ -51,6 +52,7 @@ def update_user(user_id):
     print(f"User information is now updated!")
     return jsonify(user.to_dict()), 200
 
+
 @api_user.route('/users/<user_id>', methods=['DELETE'])
 def delete_user(user_id):
     user_info = data_manager.get(user_id, 'User')
@@ -61,6 +63,7 @@ def delete_user(user_id):
     data_manager.delete(user_id, 'User')
     print(f"User deleted correctly")
     return '', 204
+
 
 if __name__ == '__main__':
     api_user.run(debug=True)

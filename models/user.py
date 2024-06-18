@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 
 from models.base_model import KeyModel
-from datetime import datetime
-import json, os
+import json
+import os
 
 
 class User(KeyModel):
@@ -11,34 +11,35 @@ class User(KeyModel):
         self.email = email
         self.first_name = first_name
         self.last_name = last_name
-    
-    def save(self):
-        if not self.is_unique_email():
-            raise ValueError("Email already exists")
-        super().save()
 
-    def is_unique_email(self):
-        file_path = "storage/User.json"
+    def save(self): 
+        if not self.unique_email(): # validacion para email
+            raise ValueError("Email already exists")
+        super().save() # llama a save base para actualizar el updated_at
+
+    def unique_email(self):
+        # verificar email que sea unico
+        file_path = "persistence/storage/user.json"
         if os.path.exists(file_path):
             with open(file_path, 'r') as file:
                 try:
-                    all_data = json.load(file)
+                    all_data = json.load(file) # carga los datos del archivo JSON
                 except json.JSONDecodeError:
                     all_data = []
             for user in all_data:
                 if user['email'] == self.email and user['id'] != str(self.id):
-                    return False
-        return True    
+                    return False # email duplicado
+        return True # email unico
 
     def delete(self):
-        super().delete()
+        super().delete() # llama a delete base para eliminar el usuario
 
     def update(self, **kwargs):
         for key, value in kwargs.items():
             setattr(self, key, value)
-        self.save()
-    
-    def to_dict(self):
+        self.save() # llama a save base para actualizar updated at
+
+    def to_dict(self): # dict de base_model, adaptado a user.
         data = super().to_dict()
         data.update({
             'email': self.email,
@@ -48,5 +49,5 @@ class User(KeyModel):
         return data
 
     def get_places(self):
-        # Lógica para obtener los lugares del usuario
+        # Tendria que obtener los lugares del ususario (places-user)
         pass

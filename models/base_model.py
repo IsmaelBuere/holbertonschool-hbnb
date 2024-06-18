@@ -14,18 +14,16 @@ class KeyModel(ABC):
     @abstractmethod
     def save(self):
         self.updated_at = datetime.now()
-        # implementacion para guardar el objeto en base de datos
 
-    @abstractmethod    
+    @abstractmethod
     def delete(self):
-        # implementacion para eliminar el objeto en base de datos
         pass
-    
+
     def update(self, **kwargs):
         for key, value in kwargs.items():
             setattr(self, key, value)
         self.save()
-    
+
     def to_dict(self):
         return {
             'id': str(self.id), # convierte UUID a str

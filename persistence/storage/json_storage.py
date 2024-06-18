@@ -1,6 +1,7 @@
 import json
 
-def serialize(data, filename): # De dict a JSON
+
+def serialize(data, filename): # De dict 'data' a JSON
     with open(filename, 'w') as file:
         json.dump(data, file, indent=4)
 

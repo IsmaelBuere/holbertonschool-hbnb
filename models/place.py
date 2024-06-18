@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 
 from models.base_model import KeyModel
-import json, os
+import json
+import os
+
 
 class Place(KeyModel):
     def __init__(self, name, city_id, user_id, description, number_rooms, number_bathrooms, max_guest, price_by_night, latitude, longitude):
@@ -21,7 +23,7 @@ class Place(KeyModel):
         
     def save(self):
         if not self.is_valid_host():
-            raise ValueError("Invalid host")
+            raise ValueError("Invalid host") # verifica host valiido o no
         super().save()
         # Implementación específica para guardar un lugar
 
@@ -36,7 +38,7 @@ class Place(KeyModel):
             for user in all_data:
                 if user['id'] == self.user_id:
                     return True
-        return False
+        return False # validacion para ver si el host existe en el archivo de almacenam json
 
     def delete(self):
         return super().delete()        
